@@ -17,28 +17,28 @@ function main(){
       const th = document.createElement("th");
       th.innerHTML = "X"+(i+1);
       headTable.appendChild(th);
-      const td = createCell();
+      const td = createCell(0, i);
       document.getElementById("func-row").appendChild(td);
     }
 
     for(let x = 0; x < nRes; x++){
-      console.log();
       const tr = document.createElement("tr");
       const thRes = document.createElement("th");
       thRes.scope = "row";
       thRes.innerHTML = "R"+(x+1);
       tr.appendChild(thRes);
       for(let y= 0; y < nVar; y++){
-        tr.appendChild(createCell());
+        tr.appendChild(createCell(x, y));
       }
       bodyTable.appendChild(tr);
     }
 
   }
-  function createCell(){
+  function createCell(x, y){
     const td = document.createElement("td");
     const input = document.createElement("input");
     input.type = "number";
+    input.id = "cell-"+(x+1)+y;
     td.appendChild(input);
     return td;
   }
