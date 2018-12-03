@@ -20,13 +20,13 @@ function main(){
       const td = createCell();
       document.getElementById("func-row").appendChild(td);
     }
-
     for(let x = 0; x < nRes; x++){
       console.log();
       const tr = document.createElement("tr");
       const thRes = document.createElement("th");
       thRes.scope = "row";
       thRes.innerHTML = "R"+(x+1);
+      //cualquier cosa
       tr.appendChild(thRes);
       for(let y= 0; y < nVar; y++){
         tr.appendChild(createCell());
