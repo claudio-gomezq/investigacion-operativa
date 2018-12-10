@@ -1,45 +1,56 @@
 "use strict";
+import createTable from './create-table.js';
+
 window.onload= main;
 
 function main(){
   document.getElementById("btn-gen").addEventListener("click", createTable);
+  document.getElementById("btn-calculate").addEventListener("click", calculate);
 
-  function createTable (){
+  function calculate(){
+    const data = getData();
+    console.log(data);
+    const pivotColumn = findPivotColumn(data);
+    const pivotIndex = findPivotRow(pivotColumn, data);
+    
+    console.log(data[pivotIndex][pivotColumn], pivotColumn, pivotIndex);
+
+  }
+
+  function getData(){
     const nVar = document.getElementById("var").value;
     const nRes = document.getElementById("res").value;
 
-    const headTable = document.getElementById("head-table");
-    headTable.innerHTML = '<th scope="col">#</th>';
-    const bodyTable = document.getElementById("body-table");
-    bodyTable.innerHTML = '<tr id="func-row"><th scope="row">Max z</th></tr>';
-
-    for(let i = 0; i < nVar; i++){
-      const th = document.createElement("th");
-      th.innerHTML = "X"+(i+1);
-      headTable.appendChild(th);
-      const td = createCell(0, i);
-      document.getElementById("func-row").appendChild(td);
-    }
-    for(let x = 0; x < nRes; x++){
-      const tr = document.createElement("tr");
-      const thRes = document.createElement("th");
-      thRes.scope = "row";
-      thRes.innerHTML = "R"+(x+1);
-      //cualquier cosa
-      tr.appendChild(thRes);
-      for(let y= 0; y < nVar; y++){
-        tr.appendChild(createCell(x, y));
+    const data = [];
+    for(let x = 0; x <= nRes; x++){
+      const row = [];
+      for(let y = 0; y<nVar; y++){
+        const cell = document.getElementById("cell-"+x+y);
+        row.push(cell.value | 0);
       }
-      bodyTable.appendChild(tr);
+      const sol = document.getElementById("cell-"+x+"-valor");
+      row.push(sol ? sol.value | 0 : 0);
+      data.push(row);
     }
+    return data;
+  }
 
+  function findPivotColumn(data){
+      const row = data[0];
+      row.pop();
+      const minValue = Math.min(...row)
+      return row.findIndex(item => item == minValue);
   }
-  function createCell(x, y){
-    const td = document.createElement("td");
-    const input = document.createElement("input");
-    input.type = "number";
-    input.id = "cell-"+(x+1)+y;
-    td.appendChild(input);
-    return td;
+  function findPivotRow(pivotColumn, data){
+    const rowLength = data[0].length;
+    const ratios= [];
+    for(let i = 1; i<data.length; i++){
+      const cell = data[i][pivotColumn];
+      const cellSol = data[i][rowLength];
+      ratios.push(cellSol/cell);
+    }
+    const minValue = Math.min(...ratios);
+    return ratios.findIndex(i => i == minValue)+1;
   }
+
 }
