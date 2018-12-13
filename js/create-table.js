@@ -6,7 +6,14 @@ export default function createTable (){
     headTable.innerHTML = '<th scope="col">#</th>';
 
     const bodyTable = document.getElementById("body-table");
-    bodyTable.innerHTML = '<tr id="func-row"><th scope="row">Max z</th></tr>';
+    bodyTable.innerHTML = `<tr id="func-row">
+                            <th scope="row">
+                                <select id="select-option" >
+                                    <option value="max">Max Z</options>
+                                    <option value="min">Min Z</options>
+                                </select>
+                            </th>
+                          </tr>`;
 
     for(let i = 0; i < nVar; i++){
         const th = document.createElement("th");
