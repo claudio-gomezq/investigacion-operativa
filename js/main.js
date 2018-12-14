@@ -1,6 +1,7 @@
 "use strict";
 import createTable from './create-table.js';
-import {maximization, minimization, getData} from './simplex.js';
+import simplex from './simplex.js';
+import getData from './normalize.js';
 
 window.onload= main;
 
@@ -9,16 +10,11 @@ function main(){
   document.getElementById("btn-calculate").addEventListener("click", calculate);
 
   function calculate(){
-    const selectOption = document.getElementById("select-option").value;
+    const selectedOption = document.getElementById("select-option").value;
     const data = getData();
-
-    let result = {} 
-    if(selectOption == "max"){
-      result = maximization(data);
-    }else{
-      result = minimization(data);
-    }
-
+    const result = simplex(data, selectedOption);
+    
+    console.log(result.iterateData);
     print(result);
   }
 
